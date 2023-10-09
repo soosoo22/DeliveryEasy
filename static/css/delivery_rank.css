@@ -1,0 +1,266 @@
+body {
+  background-color: #faf8fd;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 130vw;
+}
+
+.background {
+  z-index: 9999;
+  position: absolute;
+  top: 50px;
+  left: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.background-title {
+  font-family: "Kalam", cursive;
+  font-size: 30px;
+  /*font-family: "Noto Sans KR", sans-serif;*/
+  font-style: italic;
+  margin-top: 5px;
+}
+
+.background-title b {
+  color: #7f3fe6;
+}
+
+.background-text {
+  /*z-index: 9999;*/
+  position: absolute;
+  top: 110px;
+  left: 90px;
+
+  width: 450px;
+}
+
+.explainDiv {
+  position: absolute;
+  z-index: 9999;
+  padding: 20px;
+  top: 365px;
+  /*left: 90px;*/
+  left: 250px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 450px;
+}
+
+.explain-title {
+  color: #7f3fe6;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.explain-text {
+  font-size: 13px;
+}
+
+.explainLine {
+  position: absolute;
+  z-index: 1;
+
+  top: 410px;
+  left: 580px;
+  border: 1.5px solid #7f3fe6;
+  width: 300px;
+}
+
+.explainDiv2 {
+  position: absolute;
+  z-index: 9999;
+  padding: 20px;
+  top: 510px;
+  /*left: 90px;*/
+  left: 250px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 450px;
+}
+
+.explain-title2 {
+  color: #7f3fe6;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.explain-text2 {
+  font-size: 13px;
+}
+
+.explainLine2 {
+  position: absolute;
+  z-index: 1;
+
+  top: 550px;
+  left: 580px;
+  border: 1.5px solid #7f3fe6;
+  width: 300px;
+}
+
+.mobileSection {
+  z-index: 9999;
+  background-color: white;
+  width: 27vw;
+  height: 120vh;
+  position: absolute;
+  /*right: 270px;*/
+  left: 800px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
+    0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
+    0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+  transition: transform 0.5s ease-in-out; /*배달이지 클릭 시 섹션 이동*/
+}
+
+.mobileSection:not(.slideshow-img) {
+  padding: 0px 20px;
+}
+
+.mobile-head {
+  /*background-color: red;*/
+  padding: 17px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-title {
+  font-family: "Kalam", cursive;
+  font-style: italic;
+}
+
+.mobile-title b {
+  color: #7f3fe6; /* 원하는 색상으로 변경 */
+}
+
+.mobile-menubar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 14px;
+}
+
+.menubar-box > span {
+  margin-right: 20px;
+  padding-bottom: 12px;
+}
+
+.menubar-box > span:nth-child(2) {
+  border-bottom: 2px solid #68349a;
+}
+
+/* 업종별, 월별, 일별, 요일별, 시간대별*/
+.middlebar {
+  border-top: 1px solid #f3f3f3;
+  border-bottom: 1px solid #f3f3f3;
+  padding-bottom: 13px;
+}
+
+.middlebar-column {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.col {
+  display: flex;
+  align-items: center;
+}
+
+.middlebar-select {
+  font-size: 13px;
+  margin-right: 10px;
+}
+
+.middlebar-column:first-child {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 17px;
+  margin-bottom: 17px;
+}
+
+.middlebarBtn {
+  border-radius: 20px;
+  border: 1px solid #f3f3f3;
+  padding: 10px;
+  font-size: 11px;
+  width: 65px;
+  background-color: white;
+  color: gray;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.middlebarBtn.active {
+  background-color: #68349a;
+  color: white;
+  font-weight: 500;
+}
+
+.middlebar-column:nth-child(2) {
+  border-top: 1px solid #f3f3f3;
+  padding-top: 13px;
+  margin-bottom: 10px;
+}
+
+#yearSelect {
+  padding: 3px 12px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin-right: 20px;
+}
+
+#citySelect {
+  padding: 3px 10px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin-right: 20px;
+}
+
+#districtSelect {
+  padding: 3px 12px;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.graphBar {
+  background-color: #7742de;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 10px;
+}
+
+/* 업종별, 월별, 일별, 요일별, 시간대별 end*/
+
+/* 막대그래프 */
+label {
+  display: none;
+}
+/* 막대그래프 end */
+
+/* 표 그리기 */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+
+table,
+th,
+td {
+  border: 1px solid lightgray;
+  text-align: center;
+}
+
+td {
+  /*text-align: right;*/
+}
+
+/* 표 그리기 end */

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../static/css/delivery_rank.css" />
+    <script src="../static/js/delivery_rank.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;700&family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>배달Easy</title>
+
+    <!-- 차트 링크 -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    /> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <!-- 차트 링크 end -->
+  </head>
+  <style>
+    /* 기존의 CSS를 적용할 ID 선택자를 추가합니다. */
+    #myCustomBody {
+      background-color: #faf8fd;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      width: 130vw;
+    }
+    #container {
+      /*width: 800px;
+      height: 500px;*/
+    }
+    #myChart {
+      margin-top: 20px;
+    }
+  </style>
+  <body id="myCustomBody">
+    <div class="main">
+      <div class="background" onclick="showService()">
+        <div class="background-title">배달<b>Easy</b></div>
+      </div>
+      <div class="background-text">
+        배달Easy는 날씨 및 공휴일 API를 활용하여 사용자가 업종과 시간대를
+        입력하면 예측된 배달 주문건수를 확인할 수 있으며, 날씨, 요일, 시간대,
+        공휴일 여부에 따른 배달음식 업종별 특징 정보를 제공
+      </div>
+
+      <div class="explainDiv" style="display: none">
+        <div class="explain-title">배달음식 업종별 특징</div>
+        <div class="explain-text">
+          날씨, 요일, 시간대, 공휴일 여부에 따른 배달음식 업종별 특징 정보 제공
+        </div>
+      </div>
+      <div class="explainLine" style="display: none"></div>
+
+      <div class="explainDiv2" style="display: none">
+        <div class="explain-title2">의정부시 인기배달음식 업종 TOP10</div>
+        <div class="explain-text2">
+          조회기간 선택 후 기간별 의정부시 배달음식 업종 TOP10과 각 업종별
+          평균주문금액 확인
+        </div>
+      </div>
+      <div class="explainLine2" style="display: none"></div>
+
+      <div id="mobileSection" class="mobileSection">
+        <div class="mobile-head">
+          <div class="mobile-title">배달<b>Easy</b></div>
+          <div class="mobile-icon"><i class="fas fa-bars"></i></div>
+        </div>
+        <div class="mobile-menubar">
+          <div class="menubar-box" id="menubar-box">
+            <span class="menubar-text" onclick="window.location.href='/'"
+              >Home</span
+            >
+            <span class="menubar-text" onclick="window.location.href='/rank'"
+              >Graph</span
+            >
+            <span class="menubar-text" onclick="window.location.href='/pre'"
+              >Prediction</span
+            >
+            <span class="menubar-text">Mypage</span>
+          </div>
+          <div class="menubar-icon">
+            <i class="far fa-bell"></i>
+          </div>
+        </div>
+
+        <div class="middlebar">
+          <div class="middlebar-column">
+            <button
+              id="byCategoryBtn"
+              class="middlebarBtn active"
+              onclick="changeButtonStyle(this, 'industryTab')"
+            >
+              업종별
+            </button>
+            <button
+              id="byMonthBtn"
+              class="middlebarBtn"
+              onclick="changeButtonStyle(this, 'monthTab')"
+            >
+              월별
+            </button>
+            <button
+              id="byDayBtn"
+              class="middlebarBtn"
+              onclick="changeButtonStyle(this, 'dayTab')"
+            >
+              일별
+            </button>
+            <button
+              id="byWeekdayBtn"
+              class="middlebarBtn"
+              onclick="changeButtonStyle(this, 'weekdayTab')"
+            >
+              요일별
+            </button>
+            <button
+              id="byTimeBtn"
+              class="middlebarBtn"
+              onclick="changeButtonStyle(this, 'timeTab')"
+            >
+              시간대별
+            </button>
+          </div>
+          <div class="middlebar-column">
+            <div class="middlebar-select">기준년도&nbsp;&nbsp;&nbsp;</div>
+            <select id="yearSelect" name="year">
+              <option value="2020">2020년</option>
+              <option value="2021">2021년</option>
+              <option value="2022">2022년</option>
+              <option value="2023">2023년</option>
+            </select>
+          </div>
+          <div class="middlebar-column">
+            <div class="col">
+              <div class="middlebar-select">광역시도명</div>
+              <select id="citySelect" name="city">
+                <option value="경기도" selected>경기도</option>
+                <option value="강원도" disabled>강원도</option>
+                <option value="충청북도" disabled>충청북도</option>
+                <option value="충청남도" disabled>충청남도</option>
+                <option value="전라북도" disabled>전라북도</option>
+                <option value="전라남도" disabled>전라남도</option>
+                <option value="경상북도" disabled>경상북도</option>
+                <option value="경상남도" disabled>경상남도</option>
+                <option value="제주도" disabled>제주도</option>
+              </select>
+            </div>
+            <div class="col">
+              <div class="middlebar-select">시군구명</div>
+              <select id="districtSelect" name="district">
+                <option value="수원" disabled>수원</option>
+                <option value="성남" disabled>성남</option>
+                <option value="의정부" selected>의정부</option>
+                <option value="안양" disabled>안양</option>
+                <option value="부천" disabled>부천</option>
+                <option value="광명" disabled>광명</option>
+                <option value="평택" disabled>평택</option>
+                <option value="동두천" disabled>동두천</option>
+                <option value="안산" disabled>안산</option>
+                <option value="고양" disabled>고양</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="graphBar" class="graphBar">
+          <그래프> 2020년 의정부시 업종별 총 주문건수<i
+            class="fas fa-caret-down"
+          ></i>
+        </div>
+
+        <!-- 막대그래프 -->
+        <div id="container" class="container">
+          <canvas id="myChart" height="170"></canvas>
+        </div>
+
+        <script
+          src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+          crossorigin="anonymous"
+        ></script>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"
+        ></script>
+        <script
+          src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"
+        ></script>
+        <script>
+          let count = 0; //업종별, 월별, 일별, 요일별, 시간대별 각각 부여
+          let stepNum, maxNum;
+          var data2020 = {{ data2020 | tojson }};
+          var data = [
+            data2020[0], // 업종별 데이터
+            data2020[1], // 월별 데이터
+            data2020[2], // 일별 데이터
+            data2020[3], // 요일별 데이터
+            data2020[4]  // 시간대별 데이터
+          ];
+
+          // 테이블을 새로운 데이터로 업데이트하는 함수
+          function updateTable(data) {
+            var table = document.getElementById('dataTable');
+            var tableRows = table.getElementsByTagName('tr');
+
+
+            // 헤더를 제외한 기존 테이블 행을 제거합니다.
+            while (tableRows.length > 1) {
+              tableRows[1].remove();
+            }
+
+            // 새로운 데이터로 행을 추가합니다.
+            for (var i = 0; i < data.length; i++) {
+              var row = data[i];
+              var newRow = table.insertRow(i + 1);
+              var indexCell = newRow.insertCell(0);
+              var value1Cell = newRow.insertCell(1);
+              var value2Cell = newRow.insertCell(2);
+
+              indexCell.innerHTML = i + 1;
+              value1Cell.innerHTML = row[0];
+              value2Cell.innerHTML = row[1];
+            }
+          }
+                    // 업종별 버튼 클릭 이벤트 처리
+                    document
+                      .getElementById("byCategoryBtn")
+                      .addEventListener("click", function () {
+                        //stepNum = 100000;
+                        //maxNum = 500000;
+
+                        var graphBar = document.getElementById("graphBar");
+                        var graphBarTable = document.getElementById("graphBar-table");
+                        graphBar.innerHTML = "<그래프> 2020년 의정부시 업종별 총 주문건수<i class='fas fa-caret-down'></i>";
+                        graphBarTable.innerHTML = "<표> 2020년 의정부시 업종별 총 주문건수<i class='fas fa-caret-down'></i>";
+
+                        // labels 데이터 변경
+                      myChart.data.labels = data2020[0].map(function (row) {
+                        return row[0];
+                      });
+
+                      // datasets 데이터 변경
+                      myChart.data.datasets[0].data = data2020[0].map(function (row) {
+                        return row[1];
+                      });
+
+                      var th = document.getElementById('dataTable-th');
+                      th.innerHTML = "업종별";
+
+                      // 그래프 업데이트
+                      myChart.update();
+                      // 표 업데이트
+                      updateTable(data2020[0]);
+
+                      });
+
+                    // 월별 버튼 클릭 이벤트 처리
+                    document
+                      .getElementById("byMonthBtn")
+                      .addEventListener("click", function () {
+                        //stepNum = 100000;
+                        //maxNum = 300000;
+                        var graphBar = document.getElementById("graphBar");
+                        var graphBarTable = document.getElementById("graphBar-table");
+                        graphBar.innerHTML = "<그래프> 2020년 의정부시 월별 총 주문건수<i class='fas fa-caret-down'></i>";
+                        graphBarTable.innerHTML = "<표> 2020년 의정부시 월별 총 주문건수<i class='fas fa-caret-down'></i>";
+
+
+                        // labels 데이터 변경
+                        myChart.data.labels = data2020[1].map(function (row) {
+                        return row[0] + "월";
+                      });
+
+                      // datasets 데이터 변경
+                      myChart.data.datasets[0].data = data2020[1].map(function (row) {
+                        return row[1];
+                      });
+
+                      var th = document.getElementById('dataTable-th');
+                      th.innerHTML = "month";
+
+                        // 그래프 업데이트
+                        myChart.update();
+                        updateTable(data[1]);
+
+                      });
+
+                      // 일별 버튼 클릭 이벤트 처리
+                    document
+                      .getElementById("byDayBtn")
+                      .addEventListener("click", function () {
+                        count = 2;
+                        var graphBar = document.getElementById("graphBar");
+                        var graphBarTable = document.getElementById("graphBar-table");
+                        graphBar.innerHTML = "<그래프> 2020년 의정부시 일별 총 주문건수<i class='fas fa-caret-down'></i>";
+                        graphBarTable.innerHTML = "<표> 2020년 의정부시 일별 총 주문건수<i class='fas fa-caret-down'></i>";
+
+
+                        // labels 데이터 변경
+                        myChart.data.labels = data2020[2].map(function (row) {
+                        return row[0] + "일";
+                      });
+
+                      // datasets 데이터 변경
+                      myChart.data.datasets[0].data = data2020[2].map(function (row) {
+                        return row[1];
+                      });
+
+                      var th = document.getElementById('dataTable-th');
+                      th.innerHTML = "day";
+
+                        // 그래프 업데이트
+                        myChart.update();
+                        updateTable(data[2]);
+
+                      });
+
+                      // 요일별 버튼 클릭 이벤트 처리
+                    document
+                      .getElementById("byWeekdayBtn")
+                      .addEventListener("click", function () {
+                        count = 3;
+                        var graphBar = document.getElementById("graphBar");
+                        var graphBarTable = document.getElementById("graphBar-table");
+                        graphBar.innerHTML = "<그래프> 2020년 의정부시 요일별 총 주문건수<i class='fas fa-caret-down'></i>";
+                        graphBarTable.innerHTML = "<표> 2020년 의정부시 요일별 총 주문건수<i class='fas fa-caret-down'></i>";
+
+
+                        // labels 데이터 변경
+                        myChart.data.labels = data2020[3].map(function (row) {
+                          if(row[0] === '0'){
+                            return "월요일";
+                          }else if(row[0] === '1'){
+                            return "화요일";
+                          }else if(row[0] === '2'){
+                            return "수요일";
+                          }else if(row[0] === '3'){
+                            return "목요일";
+                          }else if(row[0] === '4'){
+                            return "금요일";
+                          }else if(row[0] === '5'){
+                            return "토요일";
+                          }else{
+                            return "일요일";
+                          }
+                        //return row[0] + "요일";
+                      });
+
+                      // datasets 데이터 변경
+                      myChart.data.datasets[0].data = data2020[3].map(function (row) {
+                        return row[1];
+                      });
+
+                      var th = document.getElementById('dataTable-th');
+                      th.innerHTML = "dayofweek";
+
+                        // 그래프 업데이트
+                        myChart.update();
+                        updateTable(data[3]);
+
+                      });
+
+                      // 시간대별 버튼 클릭 이벤트 처리
+                    document
+                      .getElementById("byTimeBtn")
+                      .addEventListener("click", function () {
+                        count = 4;
+                        var graphBar = document.getElementById("graphBar");
+                        var graphBarTable = document.getElementById("graphBar-table");
+                        graphBar.innerHTML = "<그래프> 2020년 의정부시 시간대별 총 주문건수<i class='fas fa-caret-down'></i>";
+                        graphBarTable.innerHTML = "<표> 2020년 의정부시 시간대별 총 주문건수<i class='fas fa-caret-down'></i>";
+
+
+                        // labels 데이터 변경
+                        myChart.data.labels = data2020[4].map(function (row) {
+                        return row[0];
+                      });
+
+                      // datasets 데이터 변경
+                      myChart.data.datasets[0].data = data2020[4].map(function (row) {
+                        return row[1];
+                      });
+
+                      var th = document.getElementById('dataTable-th');
+                      th.innerHTML = "time";
+
+                        // 그래프 업데이트
+                        myChart.update();
+                        updateTable(data[4]);
+
+                      });
+
+
+                    var ctx = document.getElementById("myChart");
+                    var myChart = new Chart(ctx, {
+                      type: "bar",
+                      data: {
+                        //labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                        labels: [
+                          "치킨",
+                          "한식",
+                          "족발/보쌈",
+                          "분식",
+                          "카페/디저트",
+                          "야식",
+                          "찜탕",
+                          "돈까스/일식",
+                          "패스트푸드",
+                          "피자",
+                          "중식",
+                          "아시안/양식",
+                          "회",
+                          "도시락",
+                        ],
+                        datasets: [
+                          {
+                            /*label: "# of Votes",*/
+                            label: "주문건수",
+                            data: [
+                              450984, 345940, 269693, 210856, 158974, 136288, 131708,
+                              107346, 98947, 98313, 82642, 52402, 41382, 40391,
+                            ],
+                            backgroundColor: [
+                              /*"rgba(255, 99, 132, 0.2)",
+                                        "rgba(54, 162, 235, 0.2)",
+                                        "rgba(255, 206, 86, 0.2)",
+                                        "rgba(75, 192, 192, 0.2)",
+                                        "rgba(153, 102, 255, 0.2)",
+                                        "rgba(255, 159, 64, 0.2)",
+                                        "rgba(255, 0, 0, 0.2)",
+                                        "rgba(0, 255, 0, 0.2)",
+                                        "rgba(0, 0, 255, 0.2)",
+                                        "rgba(255, 255, 0, 0.2)",
+                                        "rgba(255, 0, 255, 0.2)",
+                                        "rgba(0, 255, 255, 0.2)",
+                                        "rgba(128, 0, 0, 0.2)",
+                                        "rgba(0, 128, 0, 0.2)",*/
+                              "#FF00B7",
+                              "#FF00D2",
+                              "#FF00EE",
+                              "#EE00FF",
+                              "#D900FF",
+                              "#C500FF",
+                              "#A600FF",
+                              "#AF20FF",
+                              "#BD3CFF",
+                              "#CB59FF",
+                              "#D173FF",
+                              "#D68AFF",
+                              "#D4A9FF",
+                              "#E6C2FF",
+
+                            ],
+                            borderColor: [
+                              /*"rgba(255, 99, 132, 1)",
+                              "rgba(54, 162, 235, 1)",
+                              "rgba(255, 206, 86, 1)",
+                              "rgba(75, 192, 192, 1)",
+                              "rgba(153, 102, 255, 1)",
+                              "rgba(255, 159, 64, 1)",
+                              "rgba(255, 0, 0, 0.2)",
+                              "rgba(0, 255, 0, 0.2)",
+                              "rgba(0, 0, 255, 0.2)",
+                              "rgba(255, 255, 0, 0.2)",
+                              "rgba(255, 0, 255, 0.2)",
+                              "rgba(0, 255, 255, 0.2)",
+                              "rgba(128, 0, 0, 0.2)",
+                              "rgba(0, 128, 0, 0.2)",*/
+                            ],
+                            borderWidth: 1,
+                          },
+                        ],
+                      },
+                      options: {
+                        legend: {
+                          display: false,
+                        },
+                        scales: {
+                          yAxes: [
+                            {
+                              ticks: {
+
+                                beginAtZero: true,
+
+                                stepSize: 100000,
+                                max: 500000,
+                                callback: function (value, index, values) {
+                                  if (value === 0) {
+                                    return value;
+                                  } else {
+                                    return value.toLocaleString();
+                                  }
+                                },
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    });
+        </script>
+        <!-- 막대그래프 end -->
+
+        <div id="graphBar-table" class="graphBar">
+          <표> 2020년 의정부시 업종별 총 주문건수<i
+            class="fas fa-caret-down"
+          ></i>
+        </div>
+        <!-- 표 그리기 -->
+        <table id="dataTable">
+          <!--thead-->
+          <tr>
+            <th>순위</th>
+            <th id="dataTable-th">업종명</th>
+            <th>주문건수</th>
+          </tr>
+          <!--/thead-->
+          <!--tbody-->
+          {% for row in data2020[0] %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+          </tr>
+          {% endfor %}
+          <!--/tbody-->
+        </table>
+
+        <!-- 표 그리기 end -->
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/1dcf822923.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

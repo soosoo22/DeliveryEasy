@@ -1,0 +1,70 @@
+.selectbox-container {
+  border-top: 1px solid #f3f3f3;
+}
+
+.selectbox-column {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 17px;
+  margin-bottom: 17px;
+}
+
+.labelText {
+  font-size: 13px;
+  margin-right: 7px;
+}
+
+.time {
+  margin-left: 10px;
+}
+
+.selectbox-column > select {
+  margin-right: 5px;
+}
+
+.yearInput,
+.timeInput {
+  /*padding: px 12px;*/
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.checkBtn {
+  background-color: #7742de;
+}
+
+.resultBox {
+  background-color: #cab6f2;
+  border-radius: 10px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.resultBox-text {
+  padding: 5px 20px;
+  display: flex;
+  justify-content: start;
+  width: 90%;
+  color: #7742de;
+  font-size: 20px;
+}
+
+.resultBox-text > i {
+  margin-right: 10px;
+}
+
+.result-order {
+  background-color: white;
+  border-radius: 10px;
+  width: 320px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #bdbac5;
+  margin-top: 10px;
+}

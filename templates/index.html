@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <script src="../static/js/main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;700&family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>배달Easy</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="background" onclick="showService()">
+        <div class="background-title">배달<b>Easy</b></div>
+      </div>
+      <div class="background-text">
+        배달Easy는 날씨 및 공휴일 API를 활용하여 사용자가 업종과 시간대를
+        입력하면 예측된 배달 주문건수를 확인할 수 있으며, 날씨, 요일, 시간대,
+        공휴일 여부에 따른 배달음식 업종별 특징 정보를 제공
+      </div>
+
+      <!-- 배달이지 설명 -->
+
+      <!-- 배달이지 설명 end -->
+
+      <div class="explainDiv" style="display: none">
+        <div class="explain-title">배달음식 업종별 특징</div>
+        <div class="explain-text">
+          날씨, 요일, 시간대, 공휴일 여부에 따른 배달음식 업종별 특징 정보 제공
+        </div>
+      </div>
+      <div class="explainLine" style="display: none"></div>
+
+      <div class="explainDiv2" style="display: none">
+        <div class="explain-title2">의정부시 인기배달음식 업종 TOP10</div>
+        <div class="explain-text2">
+          조회기간 선택 후 기간별 의정부시 배달음식 업종 TOP10과 각 업종별
+          평균주문금액 확인
+        </div>
+      </div>
+      <div class="explainLine2" style="display: none"></div>
+
+      <div id="mobileSection" class="mobileSection">
+        <div class="mobile-head">
+          <div class="mobile-title">배달<b>Easy</b></div>
+          <div class="mobile-icon"><i class="fas fa-bars"></i></div>
+        </div>
+        <div class="mobile-menubar">
+          <div class="menubar-box">
+            <span class="menubar-text" onclick="window.location.href='/'"
+              >Home</span
+            >
+            <span class="menubar-text" onclick="window.location.href='/rank'"
+              >Graph</span
+            >
+            <span class="menubar-text" onclick="window.location.href='/pre'"
+              >Prediction</span
+            >
+            <span class="menubar-text">Mypage</span>
+          </div>
+          <div class="menubar-icon">
+            <i class="far fa-bell"></i>
+          </div>
+        </div>
+
+        <div class="slideshow-img">
+          <img
+            src="https://img.freepik.com/premium-vector/online-delivery-service-web-banner-template-fast-delivery-on-mobile-by-motorcycle-online-order-tracking-logistics-webpage-app-design-landing-page-isometric-vector-illustration_473922-107.jpg?w=2000"
+          />
+        </div>
+        <!-- slideshow 
+        <div class="slideshow-container">
+          <div class="slide">
+            <img src="https://unsplash.com/ko/%EC%82%AC%EC%A7%84/7boB2zfePQI" />
+          </div>
+          <div class="slide">
+            <img src="../static/img/delivery-img2.jpeg" />
+          </div>
+          <div class="slide">
+            <img src="../static/img/delivery-img3.jpeg" />
+          </div>
+          <div class="slide">
+            <img src="../static/img/delivery-img4.png" />
+          </div>
+        </div>
+        -->
+
+        <div class="mobile-btnBox">
+          <div class="mobile-btnBox-column">
+            <div class="btnBox-add">
+              날씨별
+              <i class="fas fa-angle-down"></i>
+            </div>
+            <button class="columnBtn">
+              <i class="fas fa-cloud-sun-rain"></i>
+            </button>
+            <div class="columnBtn-text">Weather</div>
+          </div>
+          <div class="mobile-btnBox-column">
+            <button class="columnBtn">
+              <i class="fas fa-calendar-day"></i>
+            </button>
+            <div class="columnBtn-text">Day</div>
+          </div>
+          <div class="mobile-btnBox-column">
+            <button class="columnBtn"><i class="far fa-clock"></i></button>
+            <div class="columnBtn-text">Time</div>
+          </div>
+          <div class="mobile-btnBox-column">
+            <button class="columnBtn">
+              <i class="fas fa-glass-cheers"></i>
+            </button>
+            <div class="columnBtn-text">Holiday</div>
+          </div>
+        </div>
+
+        <div class="explanBox">
+          <div class="explanBox-column">
+            <img src="../static/img/beer.png" />
+          </div>
+          <div class="explanBox-column">
+            <div class="explanBox-text">의정부시 기간별</div>
+            <div class="explanBox-subtext"><b>인기배달음식 업종 TOP10</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--dddd-->
+
+    <!--dddd-->
+    <script
+      src="https://kit.fontawesome.com/1dcf822923.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
